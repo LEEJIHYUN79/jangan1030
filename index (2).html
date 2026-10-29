@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>장안고등학교 학생 주도 참여형 성교육 | 나의 마음·관계 지킴이</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Pretendard -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- html2canvas Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              50: '#F0FDF4',
+              100: '#DCFCE7',
+              500: '#10B981',
+              600: '#059669',
+              dark: '#0F172A'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Pretendard', sans-serif;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: #CBD5E1;
+      border-radius: 9999px;
+    }
+    .concentric-board {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      height: 520px;
+      margin: 0 auto;
+      border-radius: 50%;
+    }
+    @media (max-width: 640px) {
+      .concentric-board {
+        max-width: 350px;
+        height: 350px;
+      }
+    }
+    .circle-outer {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(6, 78, 59, 0.45) 100%);
+      border: 3px dashed #10B981;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 10px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .circle-outer:hover {
+      border-color: #34D399;
+      background-color: rgba(6, 78, 59, 0.55);
+    }
+    .circle-middle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 72%;
+      height: 72%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, rgba(120, 53, 15, 0.6) 100%);
+      border: 3px dashed #F59E0B;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 10px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      z-index: 10;
+    }
+    .circle-middle:hover {
+      border-color: #FBBF24;
+      background-color: rgba(120, 53, 15, 0.7);
+    }
+    .circle-inner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44%;
+      height: 44%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(244, 63, 94, 0.45) 0%, rgba(136, 19, 55, 0.85) 100%);
+      border: 3px solid #F43F5E;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      z-index: 20;
+      box-shadow: 0 0 25px rgba(244, 63, 94, 0.35);
+    }
+    .circle-inner:hover {
+      border-color: #FDA4AF;
+      transform: translate(-50%, -50%) scale(1.02);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-emerald-200">
+
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      <button onclick="switchTab('home')" class="flex items-center gap-2 group text-left">
+        <span class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-white shadow-md shadow-emerald-200 group-hover:scale-105 transition-transform">
+          <i class="fa-solid fa-shield-heart text-lg"></i>
+        </span>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold text-slate-800 leading-tight">나의 마음·관계 지킴이</h1>
+          <p class="text-xs text-slate-400">장안고등학교 학생 주도 참여형 성교육</p>
+        </div>
+      </button>
+
+      <!-- 헬프라인 모달 버튼 -->
+      <button onclick="toggleHelpModal(true)" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-rose-50 text-rose-600 hover:bg-rose-100 text-xs sm:text-sm font-semibold border border-rose-200 transition">
+        <i class="fa-solid fa-phone-volume text-rose-500 animate-pulse"></i>
+        <span>도움 기관 (1388·1366)</span>
+      </button>
+    </div>
+
+    <!-- 네비게이션 탭 바 -->
+    <div class="max-w-5xl mx-auto px-2 flex overflow-x-auto gap-1 border-t border-slate-100 text-xs sm:text-sm font-medium custom-scrollbar">
+      <button id="tab-home" onclick="switchTab('home')" class="px-3.5 py-2.5 whitespace-nowrap border-b-2 border-emerald-500 text-emerald-600 font-bold transition flex items-center gap-1.5">
+        <i class="fa-solid fa-house"></i> 메인 홈
+      </button>
+      <button id="tab-video" onclick="switchTab('video')" class="px-3.5 py-2.5 whitespace-nowrap border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5">
+        <i class="fa-brands fa-youtube text-red-500 text-base"></i> 🎬 영상 학습관
+      </button>
+      <button id="tab-boundary" onclick="switchTab('boundary')" class="px-3.5 py-2.5 whitespace-nowrap border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-rose-500 inline-block"></span> 1. 경계선 그리기
+      </button>
+      <button id="tab-spectrum" onclick="switchTab('spectrum')" class="px-3.5 py-2.5 whitespace-nowrap border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-amber-500 inline-block"></span> 2. 관계 스펙트럼
+      </button>
+      <button id="tab-body" onclick="switchTab('body')" class="px-3.5 py-2.5 whitespace-nowrap border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-teal-500 inline-block"></span> 3. 신체 신호 & 감정
+      </button>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 pb-20">
+
+    <!-- [VIEW 0] 메인 홈 -->
+    <section id="view-home" class="space-y-6">
+      <div class="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-700 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+        <div class="absolute -right-10 -bottom-10 opacity-15 text-9xl">
+          <i class="fa-solid fa-heart-circle-check"></i>
+        </div>
+        <div class="max-w-xl relative z-10 space-y-3">
+          <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur rounded-full text-xs font-semibold tracking-wider text-emerald-100">
+            고등학생 자율 탐구 & 예방 교육
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-black leading-tight">
+            “사랑과 배려의 첫걸음은<br>서로의 '경계'를 존중하는 것입니다”
+          </h2>
+          <p class="text-sm sm:text-base text-emerald-100 leading-relaxed">
+            짧은 영상으로 핵심 개념을 확인하고, 3가지 인터랙티브 활동(경계선 그리기·관계 스펙트럼·감정 다스리기)을 통해 안전하고 평등한 관계를 탐구해 보세요.
+          </p>
+        </div>
+      </div>
+
+      <!-- 영상 바로보기 배너 -->
+      <div class="bg-gradient-to-r from-red-50 to-rose-50 rounded-2xl p-5 border border-red-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <span class="w-11 h-11 rounded-2xl bg-red-600 text-white flex items-center justify-center text-xl shadow-md">
+            <i class="fa-solid fa-play"></i>
+          </span>
+          <div>
+            <h4 class="font-bold text-slate-900 text-sm sm:text-base">추천 교육 영상 2편</h4>
+            <p class="text-xs text-slate-500">교제폭력의 미묘한 신호와 서로의 사생활 경계를 지키는 핵심 영상을 확인하세요.</p>
+          </div>
+        </div>
+        <button onclick="switchTab('video')" class="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-bold whitespace-nowrap transition shadow-sm">
+          영상 학습관 가기
+        </button>
+      </div>
+
+      <!-- 3가지 활동 카드 그리드 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div onclick="switchTab('boundary')" class="bg-white rounded-2xl p-6 border-2 border-slate-200/80 hover:border-rose-400 hover:shadow-xl transition group cursor-pointer flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center text-xl font-bold group-hover:scale-110 transition shadow-sm">
+              <i class="fa-solid fa-bullseye"></i>
+            </div>
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-rose-500">Activity 01</span>
+              <h3 class="text-lg font-bold text-slate-800 mt-1">나의 경계선 그리기</h3>
+            </div>
+            <p class="text-sm text-slate-500 leading-snug">
+              휴대폰 비밀번호부터 연락 빈도까지, 3개 동심원(침해불가·조율·공유)에 내 경계를 배치하고 거절 문장을 완성합니다.
+            </p>
+          </div>
+          <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-rose-600 font-semibold text-sm">
+            <span>체험 시작하기</span>
+            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+          </div>
+        </div>
+
+        <div onclick="switchTab('spectrum')" class="bg-white rounded-2xl p-6 border-2 border-slate-200/80 hover:border-amber-400 hover:shadow-xl transition group cursor-pointer flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-500 flex items-center justify-center text-xl font-bold group-hover:scale-110 transition shadow-sm">
+              <i class="fa-solid fa-traffic-light"></i>
+            </div>
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-600">Activity 02</span>
+              <h3 class="text-lg font-bold text-slate-800 mt-1">사회적 관계 스펙트럼 분류</h3>
+            </div>
+            <p class="text-sm text-slate-500 leading-snug">
+              애정 표현일까, 통제일까? 초록·노랑·빨강·회색 스펙트럼 카드를 분류하며 관계 감수성을 점검합니다.
+            </p>
+          </div>
+          <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-amber-600 font-semibold text-sm">
+            <span>게임 시작하기</span>
+            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+          </div>
+        </div>
+
+        <div onclick="switchTab('body')" class="bg-white rounded-2xl p-6 border-2 border-slate-200/80 hover:border-teal-400 hover:shadow-xl transition group cursor-pointer flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl font-bold group-hover:scale-110 transition shadow-sm">
+              <i class="fa-solid fa-heart-pulse"></i>
+            </div>
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-teal-600">Activity 03</span>
+              <h3 class="text-lg font-bold text-slate-800 mt-1">신체 신호로 감정 다스리기</h3>
+            </div>
+            <p class="text-sm text-slate-500 leading-snug">
+              화나거나 불안할 때 내 몸이 보내는 비상 신호를 읽고, 4-4-6 이완 호흡과 나만의 대처 루틴을 만듭니다.
+            </p>
+          </div>
+          <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-teal-600 font-semibold text-sm">
+            <span>루틴 만들기</span>
+            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [VIEW VIDEO] 영상 학습관 -->
+    <section id="view-video" class="hidden space-y-6">
+      <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="px-2.5 py-0.5 rounded-full bg-red-100 text-red-700 font-bold text-xs">Video Lounge</span>
+            <span class="text-xs text-slate-400">교제폭력 예방 시청각 자료</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-slate-900">영상을 시청하고 나의 생각 넓히기</h2>
+          <p class="text-sm text-slate-500 mt-1">
+            아래에서 영상을 선택해 시청한 뒤, 경계선 그리기와 스펙트럼 분류 활동에 참여해 보세요.
+          </p>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="switchTab('boundary')" class="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+            <span>활동 1 바로가기</span>
+            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div id="video-card-1" onclick="selectVideo(1)" class="p-4 rounded-2xl border-2 border-red-500 bg-red-50/70 cursor-pointer transition shadow-sm flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center text-lg shrink-0 mt-0.5 shadow-sm">
+            <i class="fa-solid fa-film"></i>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-bold text-red-600 bg-white px-2 py-0.5 rounded-md border border-red-200">영상 1</span>
+              <span id="video-badge-1" class="text-xs text-red-600 font-bold"><i class="fa-solid fa-circle-play"></i> 선택됨</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm mt-1">청소년 예방 교육 웹드라마 (1편: 이럴 땐 이렇게)</h4>
+            <p class="text-xs text-slate-500 mt-0.5 leading-snug">연인 사이의 집착, 사생활 감시, 디지털 침해가 왜 위험한 신호인지 살펴봅니다.</p>
+          </div>
+        </div>
+
+        <div id="video-card-2" onclick="selectVideo(2)" class="p-4 rounded-2xl border-2 border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition shadow-sm flex items-start gap-3">
+          <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-lg shrink-0 mt-0.5">
+            <i class="fa-solid fa-play"></i>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">영상 2</span>
+              <span id="video-badge-2" class="text-xs text-slate-400 font-medium">선택하여 시청</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm mt-1">친밀한 관계에서 서로의 경계 존중하기 (2편)</h4>
+            <p class="text-xs text-slate-500 mt-0.5 leading-snug">사람은 소유할 수 없다는 원칙과 서로의 개인적 경계를 지키는 소통법을 탐구합니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-950 rounded-3xl overflow-hidden shadow-2xl border border-slate-800">
+        <div class="relative w-full aspect-video bg-black flex items-center justify-center overflow-hidden group">
+          <img id="video-thumb-img" 
+               src="https://img.youtube.com/vi/g7tuJ1zVZqc/maxresdefault.jpg" 
+               alt="영상 썸네일" 
+               onerror="this.src='https://img.youtube.com/vi/g7tuJ1zVZqc/hqdefault.jpg'"
+               class="absolute inset-0 w-full h-full object-cover opacity-85 group-hover:opacity-75 group-hover:scale-105 transition-all duration-300">
+          
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/40 to-transparent"></div>
+
+          <button onclick="playCurrentVideo()" class="relative z-10 flex flex-col items-center gap-3 p-6 rounded-3xl bg-red-600/90 hover:bg-red-600 text-white shadow-2xl hover:scale-110 active:scale-95 transition-all">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white text-red-600 flex items-center justify-center text-2xl sm:text-3xl shadow-lg pl-1.5 animate-pulse">
+              <i class="fa-solid fa-play"></i>
+            </div>
+            <span class="text-xs sm:text-sm font-black tracking-wide bg-black/60 px-3 py-1 rounded-full border border-white/20">
+              클릭하여 영상 시청하기 (새 창/앱)
+            </span>
+          </button>
+        </div>
+
+        <div class="p-4 sm:p-5 bg-slate-900 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs border-t border-slate-800">
+          <div class="flex items-center gap-2.5">
+            <span class="w-3 h-3 rounded-full bg-red-500 animate-ping"></span>
+            <div>
+              <span id="player-title" class="font-bold text-slate-100 sm:text-sm">영상 1: 청소년 예방 교육 웹드라마 (1편: 이럴 땐 이렇게)</span>
+              <p class="text-[11px] text-slate-400 mt-0.5">안전하고 깨끗한 고화질로 바로 재생됩니다.</p>
+            </div>
+          </div>
+          <button onclick="playCurrentVideo()" class="px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold transition flex items-center justify-center gap-2 shadow-sm">
+            <i class="fa-brands fa-youtube text-base"></i>
+            <span>유튜브로 바로보기</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- [VIEW 1] 경계선 그리기 활동 -->
+    <section id="view-boundary" class="hidden space-y-6">
+      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4">
+          <div>
+            <span class="text-xs font-bold text-rose-500 uppercase tracking-wider">Activity 01 · 원형 다이어그램</span>
+            <h2 class="text-xl sm:text-2xl font-black text-slate-900 mt-0.5">친밀한 관계에서 존중받고 싶은 나의 경계선 그리기</h2>
+            <p class="text-xs sm:text-sm text-slate-500">
+              상단 카드를 먼저 선택한 뒤, 아래 <b>3중 동심원(초록·노랑·빨강)</b>을 클릭하여 나만의 경계를 완성하세요.
+            </p>
+          </div>
+          <button onclick="resetBoundaryItems()" class="self-start sm:self-auto text-xs px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-500 font-medium transition">
+            <i class="fa-solid fa-rotate-right mr-1"></i>배치 초기화
+          </button>
+        </div>
+
+        <!-- 대기 풀 -->
+        <div class="bg-slate-50/80 rounded-2xl p-4 border border-slate-200/80 space-y-2.5">
+          <div class="flex items-center justify-between text-xs font-bold text-slate-600">
+            <span>👇 먼저 배치할 카드를 탭하세요 (<span id="unassigned-count">12</span>개 남음)</span>
+            <span class="text-indigo-600 font-medium">선택 중: <b id="selected-item-name" class="font-bold underline text-indigo-700">선택 없음</b></span>
+          </div>
+          <div id="unassigned-pool" class="flex flex-wrap gap-2 min-h-[46px] items-center"></div>
+        </div>
+
+        <!-- 3단계 동심원 레이아웃 -->
+        <div class="bg-slate-950 rounded-3xl p-4 sm:p-8 text-white shadow-inner flex flex-col items-center">
+          <div class="text-center mb-4">
+            <span class="text-xs sm:text-sm font-semibold text-emerald-300">
+              💡 카드를 고른 후 🟢 외곽 원, 🟡 중간 원, 🔴 중심 원 중 원하는 영역을 탭하세요!
+            </span>
+            <p class="text-[11px] text-slate-400 mt-0.5">배치된 카드를 누르면 다시 위 카드함으로 되돌아갑니다.</p>
+          </div>
+
+          <div class="concentric-board">
+            <div onclick="targetZoneClick('outer')" class="circle-outer group" title="🟢 공유 가능 영역을 클릭하여 배치">
+              <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/50 text-[11px] sm:text-xs font-bold text-emerald-300 mt-1 pointer-events-none">
+                <span>🟢 1단계: 공유 가능</span>
+                <span class="text-[10px] text-emerald-400 font-normal">(<span id="count-outer">0</span>개)</span>
+              </div>
+              <div id="zone-outer" class="flex flex-wrap justify-center gap-1.5 max-w-[85%] mt-2 max-h-[80px] sm:max-h-[100px] overflow-y-auto custom-scrollbar"></div>
+
+              <div onclick="event.stopPropagation(); targetZoneClick('middle')" class="circle-middle group" title="🟡 대화로 조율 가능 영역을 클릭하여 배치">
+                <div class="flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-950/80 border border-amber-500/50 text-[11px] sm:text-xs font-bold text-amber-300 mt-1 pointer-events-none">
+                  <span>🟡 2단계: 조율 가능</span>
+                  <span class="text-[10px] text-amber-400 font-normal">(<span id="count-middle">0</span>개)</span>
+                </div>
+                <div id="zone-middle" class="flex flex-wrap justify-center gap-1.5 max-w-[85%] mt-2 max-h-[60px] sm:max-h-[80px] overflow-y-auto custom-scrollbar"></div>
+
+                <div onclick="event.stopPropagation(); targetZoneClick('inner')" class="circle-inner group text-center" title="🔴 침해 불가 영역을 클릭하여 배치">
+                  <div class="flex items-center justify-center gap-1 px-2.5 py-0.5 rounded-full bg-rose-950/90 border border-rose-400/80 text-[10px] sm:text-xs font-black text-rose-300 pointer-events-none">
+                    <span>🔴 나만 가능!</span>
+                    <span class="text-[10px] text-rose-200 font-normal">(<span id="count-inner">0</span>)</span>
+                  </div>
+                  <span class="text-[9px] text-rose-200 block mt-0.5 pointer-events-none">침해 불가</span>
+                  <div id="zone-inner" class="flex flex-wrap justify-center gap-1 mt-1 max-w-[90%] max-h-[50px] sm:max-h-[70px] overflow-y-auto custom-scrollbar"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-6 mt-5 text-[11px] sm:text-xs text-slate-300">
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> 🟢 외곽: 자유 공유 가능</span>
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> 🟡 중간: 대화로 조율 가능</span>
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> 🔴 중심: 나만 가능(침해 불가)</span>
+          </div>
+        </div>
+
+        <!-- 문장 작성 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+          <div class="bg-rose-50/50 rounded-2xl p-4 border border-rose-100 space-y-2">
+            <label class="block text-xs font-bold text-rose-800 flex items-center gap-1.5">
+              <i class="fa-solid fa-comment-dots text-rose-500"></i> 나의 단호한 거절 한마디 (침해받았을 때)
+            </label>
+            <textarea id="input-refusal" rows="2" placeholder="예: 내 휴대폰은 개인적인 공간이라 공유하고 싶지 않아." 
+                      class="w-full text-xs sm:text-sm p-3 rounded-xl border border-rose-200 focus:outline-none focus:ring-2 focus:ring-rose-400 bg-white resize-none"></textarea>
+          </div>
+
+          <div class="bg-indigo-50/50 rounded-2xl p-4 border border-indigo-100 space-y-2">
+            <label class="block text-xs font-bold text-indigo-800 flex items-center gap-1.5">
+              <i class="fa-solid fa-hand-holding-heart text-indigo-500"></i> 서로의 경계가 다를 때 나의 다짐
+            </label>
+            <textarea id="input-pledge" rows="2" placeholder="예: 내가 싫다고 느꼈으면 내 마음을 가볍게 넘기지 말고 존중해야지." 
+                      class="w-full text-xs sm:text-sm p-3 rounded-xl border border-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-white resize-none"></textarea>
+          </div>
+        </div>
+
+        <button onclick="openBoundaryCardModal()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-700 hover:to-rose-800 text-white font-bold text-sm shadow-lg shadow-rose-200 transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-id-card"></i>
+          <span>나만의 경계선 카드 완성 및 제출 창 열기</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- [VIEW 2] 사회적 관계 스펙트럼 게임 -->
+    <section id="view-spectrum" class="hidden space-y-6">
+      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-5">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+          <div>
+            <span class="text-xs font-bold text-amber-500 uppercase tracking-wider">Activity 02</span>
+            <h2 class="text-xl sm:text-2xl font-black text-slate-900 mt-0.5">사회적 관계 스펙트럼 분류 게임</h2>
+            <p class="text-xs sm:text-sm text-slate-500">
+              제시되는 시나리오를 읽고 4가지 스펙트럼 중 어디에 속하는지 분류해 보세요.
+            </p>
+          </div>
+          <div class="text-right">
+            <span class="text-xs text-slate-400">진행률</span>
+            <p class="text-sm font-bold text-amber-600"><span id="spectrum-current-idx">1</span> / <span id="spectrum-total-idx">8</span></p>
+          </div>
+        </div>
+
+        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+          <div id="spectrum-progress-bar" class="h-full bg-amber-500 transition-all duration-300 w-0"></div>
+        </div>
+
+        <div id="spectrum-play-area" class="space-y-6">
+          <div class="bg-gradient-to-br from-slate-50 to-amber-50/40 rounded-3xl p-6 sm:p-8 border-2 border-amber-200/60 shadow-sm min-h-[160px] flex flex-col justify-center text-center">
+            <span id="spectrum-card-tag" class="text-xs font-bold text-amber-600 inline-block mb-2">시나리오 #1</span>
+            <p id="spectrum-card-text" class="text-base sm:text-lg font-bold text-slate-800 leading-relaxed"></p>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <button onclick="answerSpectrum('green')" class="p-4 rounded-2xl bg-emerald-50 hover:bg-emerald-100 border-2 border-emerald-300 text-emerald-800 font-bold text-xs sm:text-sm transition flex flex-col items-center gap-1.5 shadow-sm active:scale-95">
+              <span class="text-2xl">🟢</span>
+              <span>초록색</span>
+              <span class="text-[11px] font-normal text-emerald-600">안전한 관계</span>
+            </button>
+
+            <button onclick="answerSpectrum('yellow')" class="p-4 rounded-2xl bg-amber-50 hover:bg-amber-100 border-2 border-amber-300 text-amber-800 font-bold text-xs sm:text-sm transition flex flex-col items-center gap-1.5 shadow-sm active:scale-95">
+              <span class="text-2xl">🟡</span>
+              <span>노란색</span>
+              <span class="text-[11px] font-normal text-amber-600">관계 경고 신호</span>
+            </button>
+
+            <button onclick="answerSpectrum('red')" class="p-4 rounded-2xl bg-rose-50 hover:bg-rose-100 border-2 border-rose-300 text-rose-800 font-bold text-xs sm:text-sm transition flex flex-col items-center gap-1.5 shadow-sm active:scale-95">
+              <span class="text-2xl">🔴</span>
+              <span>빨간색</span>
+              <span class="text-[11px] font-normal text-rose-600">안전하지 않은 관계</span>
+            </button>
+
+            <button onclick="answerSpectrum('gray')" class="p-4 rounded-2xl bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 text-slate-800 font-bold text-xs sm:text-sm transition flex flex-col items-center gap-1.5 shadow-sm active:scale-95">
+              <span class="text-2xl">⚪</span>
+              <span>회색</span>
+              <span class="text-[11px] font-normal text-slate-500">보류 / 토론 필요</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="spectrum-result-area" class="hidden space-y-5 text-center py-6">
+          <div class="w-16 h-16 rounded-3xl bg-amber-100 text-amber-600 flex items-center justify-center text-3xl mx-auto shadow-sm">
+            <i class="fa-solid fa-award"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-black text-slate-900">모든 시나리오 분류를 마쳤습니다!</h3>
+            <p class="text-xs text-slate-500 mt-1">내가 판단한 관계 스펙트럼 분포를 확인하고 수료 카드를 제출해 보세요.</p>
+          </div>
+
+          <div class="grid grid-cols-4 gap-3 max-w-md mx-auto">
+            <div class="p-3 bg-emerald-50 rounded-2xl border border-emerald-200">
+              <span class="text-xs text-emerald-700 font-bold">초록</span>
+              <p id="res-count-green" class="text-lg font-black text-emerald-800">0</p>
+            </div>
+            <div class="p-3 bg-amber-50 rounded-2xl border border-amber-200">
+              <span class="text-xs text-amber-700 font-bold">노랑</span>
+              <p id="res-count-yellow" class="text-lg font-black text-amber-800">0</p>
+            </div>
+            <div class="p-3 bg-rose-50 rounded-2xl border border-rose-200">
+              <span class="text-xs text-rose-700 font-bold">빨강</span>
+              <p id="res-count-red" class="text-lg font-black text-rose-800">0</p>
+            </div>
+            <div class="p-3 bg-slate-100 rounded-2xl border border-slate-300">
+              <span class="text-xs text-slate-700 font-bold">회색</span>
+              <p id="res-count-gray" class="text-lg font-black text-slate-800">0</p>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+            <button onclick="restartSpectrumGame()" class="px-5 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition">
+              <i class="fa-solid fa-arrow-rotate-left mr-1"></i> 다시 플레이하기
+            </button>
+            <button onclick="openSpectrumSummaryCard()" class="px-6 py-3 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm transition shadow-md">
+              <i class="fa-solid fa-id-card mr-1"></i> 수료증 확인 및 자동 제출
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [VIEW 3] 신체 신호로 감정 다스리기 -->
+    <section id="view-body" class="hidden space-y-6">
+      <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+          <div>
+            <span class="text-xs font-bold text-teal-600 uppercase tracking-wider">Activity 03</span>
+            <h2 class="text-xl sm:text-2xl font-black text-slate-900 mt-0.5">신체 신호로 감정을 읽어 내고 다스리는 법</h2>
+            <p class="text-xs sm:text-sm text-slate-500">
+              화나거나 불안할 때 내 몸에 나타나는 신호를 체크하고, 나만의 진정 루틴을 만듭니다.
+            </p>
+          </div>
+          <button onclick="startBreathingGuide()" class="px-3.5 py-2 rounded-xl bg-teal-50 text-teal-700 hover:bg-teal-100 text-xs font-bold border border-teal-200 transition flex items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-wind animate-spin"></i>
+            <span>4-4-6 이완 호흡 연습</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+          <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-3">
+            <div class="flex items-center justify-between">
+              <b class="text-xs text-slate-700">1. 스트레스 시 반응하는 부위 선택 (<span id="selected-body-count">0</span>개)</b>
+              <span class="text-[10px] text-teal-600">복수 선택 가능</span>
+            </div>
+
+            <div class="flex flex-col items-center gap-2 py-2">
+              <button id="body-head" onclick="toggleBodyPart('head')" class="w-48 py-2 px-3 rounded-2xl bg-white border-2 border-slate-200 hover:border-teal-400 text-xs font-bold text-slate-700 transition flex items-center justify-between shadow-sm">
+                <span>🧠 머리</span><span class="text-[10px] text-slate-400">두통 / 멍함</span>
+              </button>
+              <button id="body-neck" onclick="toggleBodyPart('neck')" class="w-48 py-2 px-3 rounded-2xl bg-white border-2 border-slate-200 hover:border-teal-400 text-xs font-bold text-slate-700 transition flex items-center justify-between shadow-sm">
+                <span>👤 턱 / 목 / 어깨</span><span class="text-[10px] text-slate-400">근육 굳어짐</span>
+              </button>
+              <button id="body-chest" onclick="toggleBodyPart('chest')" class="w-48 py-2 px-3 rounded-2xl bg-white border-2 border-slate-200 hover:border-teal-400 text-xs font-bold text-slate-700 transition flex items-center justify-between shadow-sm">
+                <span>🫀 가슴 / 심장</span><span class="text-[10px] text-slate-400">두근거림 / 답답</span>
+              </button>
+              <button id="body-stomach" onclick="toggleBodyPart('stomach')" class="w-48 py-2 px-3 rounded-2xl bg-white border-2 border-slate-200 hover:border-teal-400 text-xs font-bold text-slate-700 transition flex items-center justify-between shadow-sm">
+                <span>⚡ 복부 / 위장</span><span class="text-[10px] text-slate-400">속 쓰림 / 울렁</span>
+              </button>
+              <button id="body-hands" onclick="toggleBodyPart('hands')" class="w-48 py-2 px-3 rounded-2xl bg-white border-2 border-slate-200 hover:border-teal-400 text-xs font-bold text-slate-700 transition flex items-center justify-between shadow-sm">
+                <span>✋ 손 / 팔</span><span class="text-[10px] text-slate-400">떨림 / 식은땀</span>
+              </button>
+              <button id="body-legs" onclick="toggleBodyPart('legs')" class="w-48 py-2 px-3 rounded-2xl bg-white border-2 border-slate-200 hover:border-teal-400 text-xs font-bold text-slate-700 transition flex items-center justify-between shadow-sm">
+                <span>🦵 다리 / 발</span><span class="text-[10px] text-slate-400">힘 빠짐 / 저림</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="bg-indigo-50/60 rounded-2xl p-4 border border-indigo-100 space-y-2.5">
+              <b class="text-xs text-indigo-900 block">2. 그 신호 뒤에 숨은 진짜 내 감정(라벨링)</b>
+              <div id="emotion-tag-grid" class="flex flex-wrap gap-1.5"></div>
+            </div>
+
+            <div class="bg-amber-50/60 rounded-2xl p-4 border border-amber-100 space-y-2.5">
+              <b class="text-xs text-amber-900 block">3. 나에게 가장 잘 맞는 진정 루틴 선택</b>
+              <div class="space-y-1.5 text-xs">
+                <button onclick="selectCalmMethod(1)" class="w-full text-left p-2.5 rounded-xl bg-white border border-amber-200 hover:bg-amber-100 transition flex items-center gap-2 font-medium">
+                  <span class="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px] font-bold">1</span>
+                  <span>4-4-6 심호흡 (10초간 잠시 멈추고 깊게 숨쉬기)</span>
+                </button>
+                <button onclick="selectCalmMethod(2)" class="w-full text-left p-2.5 rounded-xl bg-white border border-amber-200 hover:bg-amber-100 transition flex items-center gap-2 font-medium">
+                  <span class="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px] font-bold">2</span>
+                  <span>따뜻한 자기 대화 ("괜찮아, 지금은 천천히 해도 돼")</span>
+                </button>
+                <button onclick="selectCalmMethod(3)" class="w-full text-left p-2.5 rounded-xl bg-white border border-amber-200 hover:bg-amber-100 transition flex items-center gap-2 font-medium">
+                  <span class="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px] font-bold">3</span>
+                  <span>자리 피해서 시원한 찬물 한 컵 천천히 마시기</span>
+                </button>
+                <button onclick="selectCalmMethod(4)" class="w-full text-left p-2.5 rounded-xl bg-white border border-amber-200 hover:bg-amber-100 transition flex items-center gap-2 font-medium">
+                  <span class="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px] font-bold">4</span>
+                  <span>가벼운 스트레칭과 산책으로 몸 이완하기</span>
+                </button>
+                <button onclick="selectCalmMethod(5)" class="w-full text-left p-2.5 rounded-xl bg-white border border-amber-200 hover:bg-amber-100 transition flex items-center gap-2 font-medium">
+                  <span class="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px] font-bold">5</span>
+                  <span>신뢰할 수 있는 친구나 선생님께 솔직하게 털어놓기</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button onclick="createEmotionCard()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white font-bold text-sm shadow-lg shadow-teal-200 transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-id-card"></i>
+          <span>나의 감정 조절 마스터 카드 완성 및 제출 창 열기</span>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- [MODALS] -->
+  <!-- 1. 4-4-6 이완 호흡 모달 -->
+  <div id="modal-breath" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center space-y-6 shadow-2xl relative">
+      <button onclick="closeBreathingGuide()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+
+      <div>
+        <span class="text-xs font-bold text-teal-600 bg-teal-50 px-3 py-1 rounded-full">안정화 호흡 훈련</span>
+        <h3 class="text-lg font-black text-slate-900 mt-2">4-4-6 마인드풀 호흡</h3>
+        <p class="text-xs text-slate-500 mt-0.5">화나거나 벅찰 땐 10초 멈추고 원의 리듬을 따라가세요.</p>
+      </div>
+
+      <div class="relative py-4 flex items-center justify-center min-h-[160px]">
+        <div id="breathe-circle" class="w-32 h-32 rounded-full bg-gradient-to-tr from-teal-400 to-emerald-400 flex items-center justify-center text-white font-bold shadow-xl transition-all duration-1000">
+          <div class="text-center">
+            <span id="breathe-instruction" class="text-sm font-black block">준비</span>
+            <span id="breathe-sec" class="text-xs opacity-90">4초</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-xs text-slate-400">
+        “들이쉬기 4초 ➔ 숨 멈추기 4초 ➔ 길게 내쉬기 6초”
+      </p>
+
+      <button onclick="closeBreathingGuide()" class="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+        호흡 마치기
+      </button>
+    </div>
+  </div>
+
+  <!-- 2. 스펙트럼 피드백 모달 -->
+  <div id="modal-spectrum-feedback" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 max-w-md w-full space-y-4 shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
+      <div class="flex items-center gap-3">
+        <div id="feedback-icon-box" class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"></div>
+        <div>
+          <span id="feedback-match-status" class="text-xs font-bold px-2 py-0.5 rounded-full"></span>
+          <h4 id="feedback-title" class="text-lg font-black text-slate-900 mt-1"></h4>
+        </div>
+      </div>
+
+      <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 space-y-2 text-xs sm:text-sm">
+        <div>
+          <span class="font-bold text-slate-500 text-xs">시나리오 내용:</span>
+          <p id="feedback-scenario-text" class="text-slate-700 font-medium mt-0.5"></p>
+        </div>
+        <div class="pt-2 border-t border-slate-200">
+          <span class="font-bold text-indigo-600 text-xs">💡 지도서 가이드 해설:</span>
+          <p id="feedback-desc" class="text-slate-800 leading-relaxed mt-0.5"></p>
+        </div>
+      </div>
+
+      <button onclick="nextSpectrumCard()" class="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2">
+        <span>다음 시나리오 계속하기</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- 3. [완벽 연동] 활동 결과 수료증 모달 및 원클릭 자동 제출 패널 -->
+  <div id="modal-summary" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 max-w-lg w-full space-y-4 shadow-2xl relative max-h-[94vh] overflow-y-auto custom-scrollbar">
+      <button onclick="closeSummaryModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+
+      <div class="text-center space-y-1">
+        <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">활동 수료증</span>
+        <h3 id="summary-card-title" class="text-xl font-black text-slate-900">나의 관계 권리 & 감정 카드</h3>
+        <p class="text-xs text-slate-500">학생 본인이 직접 수행한 맞춤형 학습 실천 수료증입니다.</p>
+      </div>
+
+      <!-- 닉네임 입력 구역 -->
+      <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-200 space-y-1.5">
+        <label for="student-nickname" class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+          <i class="fa-solid fa-user-pen text-indigo-600"></i> 제출용 닉네임 또는 학번/이름 입력
+        </label>
+        <div class="flex gap-2">
+          <input type="text" id="student-nickname" placeholder="예: 20115 김철수 (또는 자유 닉네임)" 
+                 oninput="updateNicknameBadge(this.value)"
+                 class="flex-1 text-xs sm:text-sm px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white font-medium" />
+        </div>
+        <p class="text-[11px] text-slate-400">입력한 닉네임이 파일명과 수료증 카드 상단에 함께 기록됩니다.</p>
+      </div>
+
+      <!-- 캡처 대상 카드 컨테이너 -->
+      <div id="capture-card-area" class="bg-gradient-to-br from-slate-50 via-white to-slate-50 rounded-2xl p-5 border-2 border-slate-200 shadow-sm space-y-4 text-xs sm:text-sm">
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-xs">
+              <i class="fa-solid fa-shield-heart"></i>
+            </span>
+            <span class="font-black text-slate-800 text-xs">청소년 교제폭력 예방교육 실천 카드</span>
+          </div>
+          <div class="text-right">
+            <span id="card-student-tag" class="block font-bold text-indigo-600 text-[11px]">익명 학생</span>
+            <span id="card-date-badge" class="text-[10px] text-slate-400"></span>
+          </div>
+        </div>
+        
+        <div id="summary-card-content" class="space-y-3"></div>
+
+        <div class="pt-2 border-t border-dashed border-slate-300 text-[10px] text-slate-400 flex items-center justify-between">
+          <span>한국양성평등교육진흥원 교육 안내서 기반</span>
+          <span>도움상담: 국번없이 1388 / 1366</span>
+        </div>
+      </div>
+
+      <!-- 자동 제출 패널 -->
+      <div class="bg-gradient-to-br from-indigo-50 to-emerald-50 rounded-2xl p-4 border border-indigo-100 space-y-3">
+        <div class="flex items-center justify-between">
+          <label class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+            <i class="fa-brands fa-google-drive text-emerald-600 text-base"></i> Google Drive 과제 자동 제출
+          </label>
+          <span class="text-[10px] text-emerald-700 font-bold bg-emerald-100 px-2 py-0.5 rounded-md">
+            🔒 장안고 폴더 직통
+          </span>
+        </div>
+
+        <!-- 핵심 원클릭 자동 제출 버튼 -->
+        <button onclick="autoSubmitToGoogleDrive()" id="btn-auto-submit" class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-200 active:scale-98">
+          <i class="fa-solid fa-cloud-arrow-up text-base"></i>
+          <span>닉네임으로 장안고 구글 폴더에 자동 제출하기</span>
+        </button>
+
+        <!-- 보조 수동 옵션 -->
+        <div class="pt-1 flex items-center justify-between text-[11px] text-slate-500 border-t border-indigo-100/70">
+          <span>기기에도 소장하고 싶다면?</span>
+          <div class="flex gap-2">
+            <button onclick="downloadCardImage()" class="text-indigo-600 font-bold hover:underline">
+              <i class="fa-solid fa-download"></i> 기기에 PNG 저장
+            </button>
+            <span class="text-slate-300">|</span>
+            <button onclick="openGoogleDriveFolder()" class="text-slate-600 hover:underline">
+              <i class="fa-solid fa-folder-open"></i> 폴더 직접 보기
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2 pt-1">
+        <button onclick="copySummaryCardText()" class="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center justify-center gap-1.5">
+          <i class="fa-regular fa-copy"></i> 텍스트 복사 (패들렛 등)
+        </button>
+        <button onclick="closeSummaryModal()" class="py-2.5 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition">
+          닫기
+        </button>
+      </div>
+      <p id="copy-toast" class="text-[11px] text-center text-emerald-600 font-bold hidden">클립보드에 복사되었습니다!</p>
+    </div>
+  </div>
+
+  <!-- 4. 24시간 도움 기관 안내 모달 -->
+  <div id="modal-help" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 max-w-md w-full space-y-4 shadow-2xl relative">
+      <button onclick="toggleHelpModal(false)" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold text-lg">
+          <i class="fa-solid fa-headset"></i>
+        </div>
+        <div>
+          <h3 class="text-lg font-black text-slate-900">24시간 안심 지원 기관</h3>
+          <p class="text-xs text-slate-500">혼자 끙끙 앓지 말고 비밀 상담을 요청하세요.</p>
+        </div>
+      </div>
+
+      <div class="space-y-2 text-xs sm:text-sm">
+        <a href="tel:1388" class="p-3.5 rounded-2xl bg-slate-50 hover:bg-emerald-50 border border-slate-200 flex items-center justify-between transition group">
+          <div>
+            <b class="text-slate-900 block group-hover:text-emerald-700">청소년상담 1388</b>
+            <span class="text-slate-500 text-xs">전화·문자 상담 가능 / 청소년 전용 고민 상담</span>
+          </div>
+          <span class="px-3 py-1 bg-white rounded-lg border font-bold text-emerald-600">국번없이 1388</span>
+        </a>
+
+        <a href="tel:1366" class="p-3.5 rounded-2xl bg-slate-50 hover:bg-rose-50 border border-slate-200 flex items-center justify-between transition group">
+          <div>
+            <b class="text-slate-900 block group-hover:text-rose-700">여성긴급전화 1366</b>
+            <span class="text-slate-500 text-xs">교제폭력, 스토킹, 성폭력 365일 24시간 긴급지원</span>
+          </div>
+          <span class="px-3 py-1 bg-white rounded-lg border font-bold text-rose-600">국번없이 1366</span>
+        </a>
+
+        <a href="tel:117" class="p-3.5 rounded-2xl bg-slate-50 hover:bg-indigo-50 border border-slate-200 flex items-center justify-between transition group">
+          <div>
+            <b class="text-slate-900 block group-hover:text-indigo-700">경찰청 학교·여성폭력 117</b>
+            <span class="text-slate-500 text-xs">학교폭력 및 청소년 교제폭력 경찰 전문 상담</span>
+          </div>
+          <span class="px-3 py-1 bg-white rounded-lg border font-bold text-indigo-600">국번없이 117</span>
+        </a>
+      </div>
+
+      <div class="bg-amber-50 rounded-xl p-3 text-[11px] text-amber-800 leading-snug border border-amber-200">
+        💡 상담 내용은 법적으로 철저히 비밀이 보장되며 익명으로도 상담할 수 있습니다.
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-white border-t border-slate-200 mt-auto py-4 text-center text-xs text-slate-400">
+    <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>한국양성평등교육진흥원 《청소년 교제폭력 예방교육 안내서》 기반 통합 교육 플랫폼</p>
+      <p class="font-medium text-slate-500">상담이 필요할 땐 <b>국번없이 1388 / 1366</b></p>
+    </div>
+  </footer>
+
+  <!-- [LOGIC] 자바스크립트 엔진 -->
+  <script>
+    let currentTab = 'home';
+    let selectedBoundaryItemId = null;
+
+    // 배포된 Google Apps Script Web App URL
+    const GAS_SUBMIT_API_URL = "https://script.google.com/macros/s/AKfycbyV3dUD8bxvwEc-J0FGLeJR1lMiRiSNYvyBXJKPuYbpPAY2B8usgSXc6fcFXUq1rHFc/exec";
+
+    // 유튜브 비디오 데이터
+    const videoData = {
+      1: {
+        id: 'g7tuJ1zVZqc',
+        title: '영상 1: 청소년 예방 교육 웹드라마 (1편: 이럴 땐 이렇게)',
+        desc: '연인 사이의 집착, 사생활 감시, 디지털 침해가 왜 위험한 신호인지 살펴봅니다.',
+        url: 'https://www.youtube.com/watch?v=g7tuJ1zVZqc',
+        thumb: 'https://img.youtube.com/vi/g7tuJ1zVZqc/maxresdefault.jpg'
+      },
+      2: {
+        id: 'DTWBwQ9W6io',
+        title: '영상 2: 친밀한 관계에서 서로의 경계 존중하기 (2편)',
+        desc: '사람은 소유할 수 없다는 원칙과 서로의 개인적 경계를 지키는 소통법을 탐구합니다.',
+        url: 'https://www.youtube.com/watch?v=DTWBwQ9W6io',
+        thumb: 'https://img.youtube.com/vi/DTWBwQ9W6io/maxresdefault.jpg'
+      }
+    };
+    let currentVideoNum = 1;
+
+    function selectVideo(num) {
+      currentVideoNum = num;
+      const v = videoData[num];
+      if (!v) return;
+
+      const titleEl = document.getElementById('player-title');
+      if (titleEl) titleEl.innerText = v.title;
+
+      const thumbImg = document.getElementById('video-thumb-img');
+      if (thumbImg) {
+        thumbImg.src = v.thumb;
+        thumbImg.onerror = () => {
+          thumbImg.src = `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
+        };
+      }
+
+      const card1 = document.getElementById('video-card-1');
+      const card2 = document.getElementById('video-card-2');
+      const badge1 = document.getElementById('video-badge-1');
+      const badge2 = document.getElementById('video-badge-2');
+
+      if (num === 1) {
+        if (card1) card1.className = 'p-4 rounded-2xl border-2 border-red-500 bg-red-50/70 cursor-pointer transition shadow-sm flex items-start gap-3';
+        if (card2) card2.className = 'p-4 rounded-2xl border-2 border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition shadow-sm flex items-start gap-3';
+        if (badge1) { badge1.innerHTML = '<i class="fa-solid fa-circle-play"></i> 선택됨'; badge1.className = 'text-xs text-red-600 font-bold'; }
+        if (badge2) { badge2.innerText = '선택하여 시청'; badge2.className = 'text-xs text-slate-400 font-medium'; }
+      } else {
+        if (card2) card2.className = 'p-4 rounded-2xl border-2 border-red-500 bg-red-50/70 cursor-pointer transition shadow-sm flex items-start gap-3';
+        if (card1) card1.className = 'p-4 rounded-2xl border-2 border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition shadow-sm flex items-start gap-3';
+        if (badge2) { badge2.innerHTML = '<i class="fa-solid fa-circle-play"></i> 선택됨'; badge2.className = 'text-xs text-red-600 font-bold'; }
+        if (badge1) { badge1.innerText = '선택하여 시청'; badge1.className = 'text-xs text-slate-400 font-medium'; }
+      }
+    }
+
+    function playCurrentVideo() {
+      const v = videoData[currentVideoNum];
+      if (v) window.open(v.url, '_blank', 'noopener,noreferrer');
+    }
+
+    // 활동 1 데이터
+    const boundaryItemsData = [
+      { id: 'b1', name: '휴대폰 비밀번호', defaultZone: null },
+      { id: 'b2', name: 'SNS 비밀 부계정', defaultZone: null },
+      { id: 'b3', name: '1:1 개인 메신저 내용', defaultZone: null },
+      { id: 'b4', name: '학교 성적 & 등수', defaultZone: null },
+      { id: 'b5', name: '몸무게 등 신체 정보', defaultZone: null },
+      { id: 'b6', name: '연락 빈도 및 시간', defaultZone: null },
+      { id: 'b7', name: '내 사진/영상 SNS 업로드', defaultZone: null },
+      { id: 'b8', name: '스킨십 속도와 범위', defaultZone: null },
+      { id: 'b9', name: '실시간 위치 공유 여부', defaultZone: null },
+      { id: 'b10', name: '취미 & 플레이리스트', defaultZone: null },
+      { id: 'b11', name: '좋아하는 음식 & 카페', defaultZone: null },
+      { id: 'b12', name: '나의 MBTI & 관심사', defaultZone: null }
+    ];
+    let boundaryItems = [];
+
+    // 활동 2 시나리오
+    const spectrumScenarios = [
+      {
+        id: 1,
+        text: '시험 기간에 내가 "오늘은 각자 공부하자."라고 말하자, 상대가 "알겠어, 다음에 보자."라고 한다.',
+        category: 'green',
+        categoryName: '초록색 (안전한 관계)',
+        reason: '상대의 일정과 개인적 경계를 자연스럽게 존중하며 서운함을 강요하지 않는 건강한 존중의 모습입니다.'
+      },
+      {
+        id: 2,
+        text: '함께 찍은 사진을 SNS에 올리기 전에 "이 사진 올려도 돼?"라고 나의 허락을 묻고 기다린다.',
+        category: 'green',
+        categoryName: '초록색 (안전한 관계)',
+        reason: '사생활과 디지털 초상권을 존중하는 모범적인 사전 동의 확인 행동입니다.'
+      },
+      {
+        id: 3,
+        text: '"네 위치 공유하자. 불안해서 그래. 알겠지?"라며 위치 공유 앱 설치를 계속 부탁한다.',
+        category: 'yellow',
+        categoryName: '노란색 (관계 경고 신호)',
+        reason: '불안을 핑계로 상대의 일상을 감시하려는 통제 욕구의 시작 신호입니다.'
+      },
+      {
+        id: 4,
+        text: '"나랑만 놀자. 그 친구들이랑은 좀 줄여."라며 나의 친구 관계를 점점 좁히려 한다.',
+        category: 'yellow',
+        categoryName: '노란색 (관계 경고 신호)',
+        reason: '연인을 주변 지인들과 단절시켜 자신에게만 의존하게 만드는 전형적인 관계 고립화 징후입니다.'
+      },
+      {
+        id: 5,
+        text: '말다툼 후 "네가 사과하면 다 풀어 줄게."라며 일방적으로 사과 조건을 건다.',
+        category: 'yellow',
+        categoryName: '노란색 (관계 경고 신호)',
+        reason: '상호 대화가 아닌 한쪽에게만 일방적인 죄책감을 지우고 힘의 균형을 깨뜨리는 조건부 애정 표현입니다.'
+      },
+      {
+        id: 6,
+        text: '휴대폰 비밀번호를 알려 달라고 하고, 거절하자 "왜? 뭐 숨기는 거 있어?"라며 몰아붙인다.',
+        category: 'red',
+        categoryName: '빨간색 (안전하지 않은 관계)',
+        reason: '거절 의사를 무시하고 의심과 압박으로 개인의 사생활을 침해하는 명백한 통제 폭력입니다.'
+      },
+      {
+        id: 7,
+        text: '"헤어지면 나 진짜 큰일 낼 거야."라며 자해나 극단적인 행동을 암시한다.',
+        category: 'red',
+        categoryName: '빨간색 (안전하지 않은 관계)',
+        reason: '상대의 이별 권리를 박탈하고 공포심과 죄책감을 이용해 통제하려는 중대한 정서적 학대 및 협박입니다.'
+      },
+      {
+        id: 8,
+        text: '상대가 나의 동의를 구하지 않고, 얼굴에 우스꽝스러운 스티커를 붙인 사진을 SNS에 올렸다.',
+        category: 'gray',
+        categoryName: '회색 (보류 / 토론 필요)',
+        reason: '단순 장난인지 당사자가 불쾌감을 느끼는지 맥락에 따라 모둠 토의가 필요한 상황입니다.'
+      }
+    ];
+    let currentScenarioIdx = 0;
+    let spectrumUserAnswers = [];
+
+    // 활동 3 데이터
+    const emotionLabels = ['답답함', '억울함', '불안·초조', '분노·화', '서운함', '두려움', '무기력', '당황스러움'];
+    let selectedBodyParts = new Set();
+    let selectedEmotions = new Set();
+    let selectedCalmRoutine = null;
+    let breathInterval = null;
+
+    function switchTab(tabId) {
+      currentTab = tabId;
+      const tabs = ['home', 'video', 'boundary', 'spectrum', 'body'];
+      tabs.forEach(t => {
+        const viewEl = document.getElementById(`view-${t}`);
+        const tabBtn = document.getElementById(`tab-${t}`);
+        if (viewEl) viewEl.classList.toggle('hidden', t !== tabId);
+        if (tabBtn) {
+          if (t === tabId) {
+            tabBtn.className = "px-3.5 py-2.5 whitespace-nowrap border-b-2 border-emerald-500 text-emerald-600 font-bold transition flex items-center gap-1.5";
+          } else {
+            tabBtn.className = "px-3.5 py-2.5 whitespace-nowrap border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5";
+          }
+        }
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function initBoundaryActivity() {
+      boundaryItems = JSON.parse(JSON.stringify(boundaryItemsData));
+      selectedBoundaryItemId = null;
+      const selectedLabel = document.getElementById('selected-item-name');
+      if (selectedLabel) selectedLabel.innerText = '선택 없음';
+      renderBoundaryPool();
+      renderBoundaryZones();
+    }
+
+    function renderBoundaryPool() {
+      const pool = document.getElementById('unassigned-pool');
+      if (!pool) return;
+      pool.innerHTML = '';
+      
+      const unassigned = boundaryItems.filter(item => item.defaultZone === null);
+      const countEl = document.getElementById('unassigned-count');
+      if (countEl) countEl.innerText = unassigned.length;
+
+      if (unassigned.length === 0) {
+        pool.innerHTML = `<div class="w-full text-center py-4 text-emerald-600 font-bold text-xs bg-emerald-50 rounded-xl border border-emerald-200">✨ 12개 카드가 모두 동심원 안에 배치되었습니다! 아래 거절 문장을 완성해 보세요.</div>`;
+        return;
+      }
+
+      unassigned.forEach(item => {
+        const badge = document.createElement('button');
+        const isSelected = selectedBoundaryItemId === item.id;
+        badge.className = `px-3 py-1.5 rounded-xl text-xs font-semibold transition border ${
+          isSelected 
+            ? 'bg-indigo-600 text-white border-indigo-700 shadow-md scale-105 ring-2 ring-indigo-300' 
+            : 'bg-white hover:bg-slate-100 text-slate-700 border-slate-300 shadow-sm'
+        }`;
+        badge.innerText = item.name;
+        badge.onclick = (e) => {
+          e.stopPropagation();
+          selectBoundaryItem(item.id);
+        };
+        pool.appendChild(badge);
+      });
+    }
+
+    function selectBoundaryItem(id) {
+      selectedBoundaryItemId = (selectedBoundaryItemId === id) ? null : id;
+      const selectedItem = boundaryItems.find(i => i.id === selectedBoundaryItemId);
+      const selectedLabel = document.getElementById('selected-item-name');
+      if (selectedLabel) {
+        selectedLabel.innerText = selectedItem ? selectedItem.name : '선택 없음';
+      }
+      renderBoundaryPool();
+    }
+
+    function moveSelectedToZone(zoneKey) {
+      if (!selectedBoundaryItemId) {
+        alertBox('상단에서 먼저 배치할 카드를 터치해 주세요!');
+        return;
+      }
+      const target = boundaryItems.find(i => i.id === selectedBoundaryItemId);
+      if (target) {
+        target.defaultZone = zoneKey;
+        const placedName = target.name;
+        selectedBoundaryItemId = null;
+        const selectedLabel = document.getElementById('selected-item-name');
+        if (selectedLabel) selectedLabel.innerText = '선택 없음';
+        renderBoundaryPool();
+        renderBoundaryZones();
+        
+        const zoneNames = {
+          inner: '🔴 나만 가능 (침해 불가)',
+          middle: '🟡 조율 가능 (상황별 대화)',
+          outer: '🟢 공유 가능 (자유 공유)'
+        };
+        alertBox(`[${placedName}] 카드가 ${zoneNames[zoneKey]}에 배치되었습니다.`);
+      }
+    }
+
+    function targetZoneClick(zoneKey) {
+      if (selectedBoundaryItemId) {
+        moveSelectedToZone(zoneKey);
+      } else {
+        alertBox('상단의 카드를 먼저 선택한 뒤 원을 눌러주세요!');
+      }
+    }
+
+    function renderBoundaryZones() {
+      const innerZone = document.getElementById('zone-inner');
+      const middleZone = document.getElementById('zone-middle');
+      const outerZone = document.getElementById('zone-outer');
+
+      if (!innerZone || !middleZone || !outerZone) return;
+      innerZone.innerHTML = '';
+      middleZone.innerHTML = '';
+      outerZone.innerHTML = '';
+
+      let innerC = 0, middleC = 0, outerC = 0;
+
+      boundaryItems.forEach(item => {
+        if (!item.defaultZone) return;
+
+        const tag = document.createElement('span');
+        tag.className = 'text-[10px] sm:text-xs px-2 py-0.5 rounded-lg font-bold cursor-pointer shadow-md truncate max-w-[120px] inline-flex items-center gap-1 transition hover:scale-105 active:scale-95';
+        tag.title = '클릭하면 다시 대기 카드로 복귀합니다';
+        tag.onclick = (e) => {
+          e.stopPropagation();
+          item.defaultZone = null;
+          renderBoundaryPool();
+          renderBoundaryZones();
+          alertBox(`[${item.name}] 카드가 대기함으로 복귀했습니다.`);
+        };
+
+        if (item.defaultZone === 'inner') {
+          innerC++;
+          tag.className += ' bg-rose-600 text-white hover:bg-rose-500 border border-rose-300';
+          tag.innerHTML = `${item.name} <i class="fa-solid fa-xmark text-[9px] opacity-80"></i>`;
+          innerZone.appendChild(tag);
+        } else if (item.defaultZone === 'middle') {
+          middleC++;
+          tag.className += ' bg-amber-400 text-amber-950 hover:bg-amber-300 border border-amber-200';
+          tag.innerHTML = `${item.name} <i class="fa-solid fa-xmark text-[9px] opacity-80"></i>`;
+          middleZone.appendChild(tag);
+        } else if (item.defaultZone === 'outer') {
+          outerC++;
+          tag.className += ' bg-emerald-400 text-emerald-950 hover:bg-emerald-300 border border-emerald-200';
+          tag.innerHTML = `${item.name} <i class="fa-solid fa-xmark text-[9px] opacity-80"></i>`;
+          outerZone.appendChild(tag);
+        }
+      });
+
+      const ci = document.getElementById('count-inner');
+      const cm = document.getElementById('count-middle');
+      const co = document.getElementById('count-outer');
+      if (ci) ci.innerText = innerC;
+      if (cm) cm.innerText = middleC;
+      if (co) co.innerText = outerC;
+    }
+
+    function resetBoundaryItems() {
+      boundaryItems.forEach(i => i.defaultZone = null);
+      selectedBoundaryItemId = null;
+      const selectedLabel = document.getElementById('selected-item-name');
+      if (selectedLabel) selectedLabel.innerText = '선택 없음';
+      renderBoundaryPool();
+      renderBoundaryZones();
+      alertBox('배치 항목이 초기화되었습니다.');
+    }
+
+    function openBoundaryCardModal() {
+      saveBoundarySummary();
+    }
+
+    function updateNicknameBadge(name) {
+      const tag = document.getElementById('card-student-tag');
+      if (tag) {
+        tag.innerText = name.trim() ? `작성자: ${name.trim()}` : '익명 학생';
+      }
+    }
+
+    function saveBoundarySummary() {
+      const refusalEl = document.getElementById('input-refusal');
+      const pledgeEl = document.getElementById('input-pledge');
+      const refusal = (refusalEl && refusalEl.value.trim()) || '아직 작성하지 않음';
+      const pledge = (pledgeEl && pledgeEl.value.trim()) || '아직 작성하지 않음';
+
+      const innerItems = boundaryItems.filter(i => i.defaultZone === 'inner').map(i => i.name);
+      const middleItems = boundaryItems.filter(i => i.defaultZone === 'middle').map(i => i.name);
+      const outerItems = boundaryItems.filter(i => i.defaultZone === 'outer').map(i => i.name);
+
+      const titleEl = document.getElementById('summary-card-title');
+      const dateEl = document.getElementById('card-date-badge');
+      if (titleEl) titleEl.innerText = '나의 관계 경계선 & 거절의 기술 카드';
+      if (dateEl) dateEl.innerText = new Date().toLocaleDateString('ko-KR');
+
+      const contentEl = document.getElementById('summary-card-content');
+      if (contentEl) {
+        contentEl.innerHTML = `
+          <div class="space-y-2">
+            <div class="p-2.5 rounded-xl bg-rose-50 border border-rose-200">
+              <b class="text-rose-700 text-xs">🔴 침해 불가 (나만 가능):</b>
+              <p class="text-slate-700 text-xs mt-0.5">${innerItems.length ? innerItems.join(', ') : '지정된 항목 없음'}</p>
+            </div>
+            <div class="p-2.5 rounded-xl bg-amber-50 border border-amber-200">
+              <b class="text-amber-700 text-xs">🟡 대화로 조율 가능:</b>
+              <p class="text-slate-700 text-xs mt-0.5">${middleItems.length ? middleItems.join(', ') : '지정된 항목 없음'}</p>
+            </div>
+            <div class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200">
+              <b class="text-emerald-700 text-xs">🟢 자유 공유 가능:</b>
+              <p class="text-slate-700 text-xs mt-0.5">${outerItems.length ? outerItems.join(', ') : '지정된 항목 없음'}</p>
+            </div>
+            <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200 space-y-1.5 mt-2">
+              <div>
+                <span class="text-indigo-800 font-bold text-xs">💬 나의 단호한 거절 한마디:</span>
+                <p class="text-slate-800 text-xs font-semibold mt-0.5">"${refusal}"</p>
+              </div>
+              <div class="pt-1.5 border-t border-indigo-100">
+                <span class="text-indigo-800 font-bold text-xs">🤝 경계가 다를 때 나의 다짐:</span>
+                <p class="text-slate-800 text-xs font-semibold mt-0.5">"${pledge}"</p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      const nickInput = document.getElementById('student-nickname');
+      if (nickInput) updateNicknameBadge(nickInput.value);
+
+      const modal = document.getElementById('modal-summary');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function initSpectrumActivity() {
+      currentScenarioIdx = 0;
+      spectrumUserAnswers = [];
+      const totalIdxEl = document.getElementById('spectrum-total-idx');
+      if (totalIdxEl) totalIdxEl.innerText = spectrumScenarios.length;
+      
+      const playArea = document.getElementById('spectrum-play-area');
+      const resArea = document.getElementById('spectrum-result-area');
+      if (playArea) playArea.classList.remove('hidden');
+      if (resArea) resArea.classList.add('hidden');
+      loadCurrentScenario();
+    }
+
+    function loadCurrentScenario() {
+      if (currentScenarioIdx >= spectrumScenarios.length) {
+        showSpectrumResults();
+        return;
+      }
+      const sc = spectrumScenarios[currentScenarioIdx];
+      const curIdxEl = document.getElementById('spectrum-current-idx');
+      const tagEl = document.getElementById('spectrum-card-tag');
+      const textEl = document.getElementById('spectrum-card-text');
+      const barEl = document.getElementById('spectrum-progress-bar');
+
+      if (curIdxEl) curIdxEl.innerText = currentScenarioIdx + 1;
+      if (tagEl) tagEl.innerText = `시나리오 #${currentScenarioIdx + 1}`;
+      if (textEl) textEl.innerText = sc.text;
+      
+      if (barEl) {
+        const percent = ((currentScenarioIdx + 1) / spectrumScenarios.length) * 100;
+        barEl.style.width = `${percent}%`;
+      }
+    }
+
+    function answerSpectrum(chosenColor) {
+      const sc = spectrumScenarios[currentScenarioIdx];
+      const isMatch = sc.category === chosenColor;
+
+      spectrumUserAnswers.push({
+        id: sc.id,
+        text: sc.text,
+        chosen: chosenColor,
+        correct: sc.category,
+        reason: sc.reason
+      });
+
+      const modal = document.getElementById('modal-spectrum-feedback');
+      const iconBox = document.getElementById('feedback-icon-box');
+      const statusBadge = document.getElementById('feedback-match-status');
+      const title = document.getElementById('feedback-title');
+      const desc = document.getElementById('feedback-desc');
+      const scenarioText = document.getElementById('feedback-scenario-text');
+
+      if (scenarioText) scenarioText.innerText = sc.text;
+      if (desc) desc.innerText = sc.reason;
+
+      const colorMap = {
+        green: { name: '초록색 (안전)', bg: 'bg-emerald-100 text-emerald-700', icon: '🟢' },
+        yellow: { name: '노란색 (경고)', bg: 'bg-amber-100 text-amber-700', icon: '🟡' },
+        red: { name: '빨간색 (불안전)', bg: 'bg-rose-100 text-rose-700', icon: '🔴' },
+        gray: { name: '회색 (보류)', bg: 'bg-slate-200 text-slate-700', icon: '⚪' }
+      };
+
+      if (iconBox) iconBox.innerText = colorMap[sc.category].icon;
+      if (statusBadge) {
+        statusBadge.className = `text-xs font-bold px-2.5 py-0.5 rounded-full ${colorMap[sc.category].bg}`;
+        statusBadge.innerText = `지도서 권장 분류: ${colorMap[sc.category].name}`;
+      }
+
+      if (title) {
+        if (isMatch) {
+          title.innerText = '💡 정확한 통찰입니다!';
+          title.className = 'text-lg font-black text-emerald-600 mt-1';
+        } else {
+          title.innerText = '🔍 이렇게 생각해 볼 수 있어요!';
+          title.className = 'text-lg font-black text-slate-800 mt-1';
+        }
+      }
+
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function nextSpectrumCard() {
+      const modal = document.getElementById('modal-spectrum-feedback');
+      if (modal) modal.classList.add('hidden');
+      currentScenarioIdx++;
+      loadCurrentScenario();
+    }
+
+    function showSpectrumResults() {
+      const playArea = document.getElementById('spectrum-play-area');
+      const resArea = document.getElementById('spectrum-result-area');
+      if (playArea) playArea.classList.add('hidden');
+      if (resArea) resArea.classList.remove('hidden');
+
+      let greenC = 0, yellowC = 0, redC = 0, grayC = 0;
+      spectrumUserAnswers.forEach(a => {
+        if (a.chosen === 'green') greenC++;
+        else if (a.chosen === 'yellow') yellowC++;
+        else if (a.chosen === 'red') redC++;
+        else if (a.chosen === 'gray') grayC++;
+      });
+
+      const rg = document.getElementById('res-count-green');
+      const ry = document.getElementById('res-count-yellow');
+      const rr = document.getElementById('res-count-red');
+      const ra = document.getElementById('res-count-gray');
+      if (rg) rg.innerText = greenC;
+      if (ry) ry.innerText = yellowC;
+      if (rr) rr.innerText = redC;
+      if (ra) ra.innerText = grayC;
+    }
+
+    function restartSpectrumGame() {
+      initSpectrumActivity();
+    }
+
+    function openSpectrumSummaryCard() {
+      const titleEl = document.getElementById('summary-card-title');
+      const dateEl = document.getElementById('card-date-badge');
+      if (titleEl) titleEl.innerText = '나의 관계 스펙트럼 감수성 리포트';
+      if (dateEl) dateEl.innerText = new Date().toLocaleDateString('ko-KR');
+
+      const greenCount = spectrumUserAnswers.filter(a => a.chosen === 'green').length;
+      const yellowCount = spectrumUserAnswers.filter(a => a.chosen === 'yellow').length;
+      const redCount = spectrumUserAnswers.filter(a => a.chosen === 'red').length;
+      const grayCount = spectrumUserAnswers.filter(a => a.chosen === 'gray').length;
+
+      const contentEl = document.getElementById('summary-card-content');
+      if (contentEl) {
+        contentEl.innerHTML = `
+          <div class="space-y-3">
+            <div class="grid grid-cols-4 gap-2 text-center p-3 bg-slate-50 rounded-xl border border-slate-200">
+              <div><span class="text-[11px] text-emerald-600 font-bold">초록</span><p class="font-black text-sm">${greenCount}건</p></div>
+              <div><span class="text-[11px] text-amber-600 font-bold">노랑</span><p class="font-black text-sm">${yellowCount}건</p></div>
+              <div><span class="text-[11px] text-rose-600 font-bold">빨강</span><p class="font-black text-sm">${redCount}건</p></div>
+              <div><span class="text-[11px] text-slate-600 font-bold">회색</span><p class="font-black text-sm">${grayCount}건</p></div>
+            </div>
+            <div class="p-3 rounded-xl bg-amber-50/80 border border-amber-200 text-xs space-y-1.5 text-slate-700">
+              <b class="text-amber-800 block text-xs">🎓 핵심 성찰 요약:</b>
+              <p>• 아무리 친한 연인이라도 <b>비밀번호 요구, 사진 강요, 고립 유도</b>는 명백한 통제와 침해입니다.</p>
+              <p>• 불편함이나 찝찝함이 드는 노란색 경고 신호는 무시하지 말고 조기에 명확히 대화해야 합니다.</p>
+            </div>
+          </div>
+        `;
+      }
+
+      const nickInput = document.getElementById('student-nickname');
+      if (nickInput) updateNicknameBadge(nickInput.value);
+
+      const modal = document.getElementById('modal-summary');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function initBodyActivity() {
+      selectedBodyParts.clear();
+      selectedEmotions.clear();
+      selectedCalmRoutine = null;
+
+      ['head', 'neck', 'chest', 'stomach', 'hands', 'legs'].forEach(part => {
+        const btn = document.getElementById(`body-${part}`);
+        if (btn) btn.className = 'w-48 py-2 px-3 rounded-2xl bg-white border-2 border-slate-200 hover:border-teal-400 text-xs font-bold text-slate-700 transition flex items-center justify-between shadow-sm';
+      });
+      const countEl = document.getElementById('selected-body-count');
+      if (countEl) countEl.innerText = 0;
+
+      const tagGrid = document.getElementById('emotion-tag-grid');
+      if (tagGrid) {
+        tagGrid.innerHTML = '';
+        emotionLabels.forEach(emotion => {
+          const btn = document.createElement('button');
+          btn.className = 'px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition';
+          btn.innerText = emotion;
+          btn.onclick = () => {
+            if (selectedEmotions.has(emotion)) {
+              selectedEmotions.delete(emotion);
+              btn.className = 'px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition';
+            } else {
+              selectedEmotions.add(emotion);
+              btn.className = 'px-3 py-1.5 rounded-xl bg-indigo-600 text-white border-indigo-600 text-xs font-bold transition shadow-sm';
+            }
+          };
+          tagGrid.appendChild(btn);
+        });
+      }
+    }
+
+    function toggleBodyPart(partId) {
+      const btn = document.getElementById(`body-${partId}`);
+      if (!btn) return;
+
+      if (selectedBodyParts.has(partId)) {
+        selectedBodyParts.delete(partId);
+        btn.className = btn.className.replace('border-teal-500 bg-teal-50 text-teal-800', 'border-slate-200 bg-white text-slate-700');
+      } else {
+        selectedBodyParts.add(partId);
+        btn.className = btn.className.replace('border-slate-200 bg-white text-slate-700', 'border-teal-500 bg-teal-50 text-teal-800');
+      }
+      const countEl = document.getElementById('selected-body-count');
+      if (countEl) countEl.innerText = selectedBodyParts.size;
+    }
+
+    function selectCalmMethod(methodNum) {
+      selectedCalmRoutine = methodNum;
+      const methods = [
+        '4-4-6 심호흡하기',
+        '따뜻한 긍정적 자기 대화',
+        '자리 피해서 찬물 한 컵 마시기',
+        '가벼운 산책과 몸 움직이기',
+        '신뢰할 수 있는 친구·선생님께 털어놓기'
+      ];
+      alertBox(`선호 루틴으로 [${methods[methodNum - 1]}]을(를) 선택했습니다.`);
+    }
+
+    function createEmotionCard() {
+      if (selectedBodyParts.size === 0 && selectedEmotions.size === 0) {
+        alertBox('먼저 신체 반응 부위와 감정 이름을 하나 이상 선택해 주세요!');
+        return;
+      }
+
+      const bodyPartNames = {
+        head: '머리(두통·멍함)',
+        neck: '턱·목·어깨(긴장)',
+        chest: '가슴·심장(두근거림)',
+        stomach: '복부·위장(울렁거림)',
+        hands: '손·팔(떨림)',
+        legs: '다리·발(힘빠짐)'
+      };
+      const parts = Array.from(selectedBodyParts).map(p => bodyPartNames[p] || p);
+      const emotions = Array.from(selectedEmotions);
+      const methods = [
+        '4-4-6 심호흡하기',
+        '따뜻한 긍정적 자기 대화 ("천천히 말해도 돼")',
+        '자리 피해서 찬물 한 컵 마시기',
+        '가벼운 산책과 스트레칭',
+        '신뢰할 수 있는 친구·선생님께 말하기'
+      ];
+      const routineName = selectedCalmRoutine ? methods[selectedCalmRoutine - 1] : '4-4-6 심호흡 및 진정 시간 갖기';
+
+      const titleEl = document.getElementById('summary-card-title');
+      const dateEl = document.getElementById('card-date-badge');
+      if (titleEl) titleEl.innerText = '나의 신체 신호 & 감정 조절 마스터 카드';
+      if (dateEl) dateEl.innerText = new Date().toLocaleDateString('ko-KR');
+
+      const contentEl = document.getElementById('summary-card-content');
+      if (contentEl) {
+        contentEl.innerHTML = `
+          <div class="space-y-2.5">
+            <div class="p-3 rounded-xl bg-teal-50 border border-teal-200">
+              <b class="text-teal-800 text-xs">🩺 나의 스트레스 신체 신호:</b>
+              <p class="text-slate-800 text-xs mt-0.5 font-medium">${parts.length ? parts.join(', ') : '감지 부위 미체크'}</p>
+            </div>
+            <div class="p-3 rounded-xl bg-indigo-50 border border-indigo-200">
+              <b class="text-indigo-800 text-xs">🏷️ 신호가 알려주는 진짜 내 감정(라벨링):</b>
+              <p class="text-slate-800 text-xs mt-0.5 font-semibold">${emotions.length ? emotions.join(', ') : '선택된 감정 라벨 없음'}</p>
+            </div>
+            <div class="p-3 rounded-xl bg-amber-50 border border-amber-200">
+              <b class="text-amber-800 text-xs">✨ 나를 지키는 1순위 진정 루틴:</b>
+              <p class="text-slate-800 text-xs mt-0.5 font-bold">${routineName}</p>
+            </div>
+          </div>
+        `;
+      }
+
+      const nickInput = document.getElementById('student-nickname');
+      if (nickInput) updateNicknameBadge(nickInput.value);
+
+      const modal = document.getElementById('modal-summary');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function startBreathingGuide() {
+      const modal = document.getElementById('modal-breath');
+      if (modal) modal.classList.remove('hidden');
+      const circle = document.getElementById('breathe-circle');
+      const instruction = document.getElementById('breathe-instruction');
+      const secEl = document.getElementById('breathe-sec');
+
+      let step = 0;
+      let remain = 4;
+
+      function updateBreathUI() {
+        if (!circle || !instruction || !secEl) return;
+        if (step === 0) {
+          instruction.innerText = '숨 들이쉬기';
+          circle.style.transform = 'scale(1.35)';
+          circle.className = 'w-32 h-32 rounded-full bg-gradient-to-tr from-teal-400 to-emerald-400 flex items-center justify-center text-white font-bold shadow-xl transition-all duration-1000';
+        } else if (step === 1) {
+          instruction.innerText = '숨 멈추기';
+          circle.style.transform = 'scale(1.35)';
+          circle.className = 'w-32 h-32 rounded-full bg-gradient-to-tr from-indigo-400 to-purple-400 flex items-center justify-center text-white font-bold shadow-xl transition-all duration-500';
+        } else {
+          instruction.innerText = '길게 내쉬기';
+          circle.style.transform = 'scale(1.0)';
+          circle.className = 'w-32 h-32 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-400 flex items-center justify-center text-white font-bold shadow-xl transition-all duration-1000';
+        }
+        secEl.innerText = remain;
+      }
+
+      updateBreathUI();
+
+      if (breathInterval) clearInterval(breathInterval);
+      breathInterval = setInterval(() => {
+        remain--;
+        if (remain <= 0) {
+          if (step === 0) {
+            step = 1;
+            remain = 4;
+          } else if (step === 1) {
+            step = 2;
+            remain = 6;
+          } else {
+            step = 0;
+            remain = 4;
+          }
+        }
+        updateBreathUI();
+      }, 1000);
+    }
+
+    function closeBreathingGuide() {
+      if (breathInterval) clearInterval(breathInterval);
+      const modal = document.getElementById('modal-breath');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function getStudentName() {
+      const input = document.getElementById('student-nickname');
+      return (input && input.value.trim()) ? input.value.trim() : '익명학생';
+    }
+
+    // Google Apps Script 연동 자동 제출
+    async function autoSubmitToGoogleDrive() {
+      const cardEl = document.getElementById('capture-card-area');
+      const btn = document.getElementById('btn-auto-submit');
+      if (!cardEl || !btn) return;
+
+      const nickname = getStudentName();
+      if (nickname === '익명학생') {
+        const confirmGo = confirm('닉네임(학번/이름)이 입력되지 않았습니다. [익명학생]으로 제출하시겠습니까?');
+        if (!confirmGo) {
+          document.getElementById('student-nickname').focus();
+          return;
+        }
+      }
+
+      const origText = btn.innerHTML;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-base"></i><span>구글 드라이브 전송 중...</span>`;
+      btn.disabled = true;
+
+      try {
+        const canvas = await html2canvas(cardEl, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: '#ffffff'
+        });
+        const imgData = canvas.toDataURL('image/png');
+        const filename = `[장안고_${nickname}]_${Date.now()}.png`;
+
+        await fetch(GAS_SUBMIT_API_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            image: imgData,
+            filename: filename
+          })
+        });
+
+        alertBox(`🎉 [${nickname}] 학생의 카드가 장안고 구글 폴더에 안전하게 제출되었습니다!`);
+      } catch (err) {
+        console.error(err);
+        alertBox('전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+      } finally {
+        btn.innerHTML = origText;
+        btn.disabled = false;
+      }
+    }
+
+    async function downloadCardImage() {
+      const cardEl = document.getElementById('capture-card-area');
+      if (!cardEl) return;
+      const nickname = getStudentName();
+
+      try {
+        const canvas = await html2canvas(cardEl, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: '#ffffff'
+        });
+        const imgData = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = `장안고_${nickname}_성교육카드_${Date.now()}.png`;
+        link.href = imgData;
+        link.click();
+        alertBox('카드가 기기에 다운로드되었습니다!');
+      } catch (err) {
+        console.error(err);
+        alertBox('이미지 저장 중 오류가 발생했습니다.');
+      }
+    }
+
+    const targetGoogleDriveUrl = 'https://drive.google.com/drive/folders/1oD08n_jQB5pEPdnE7vdS7Q9CdX0HSkeO?usp=drive_link';
+
+    function openGoogleDriveFolder() {
+      window.open(targetGoogleDriveUrl, '_blank', 'noopener,noreferrer');
+    }
+
+    function toggleHelpModal(show) {
+      const el = document.getElementById('modal-help');
+      if (!el) return;
+      if (show) el.classList.remove('hidden');
+      else el.classList.add('hidden');
+    }
+
+    function closeSummaryModal() {
+      const sm = document.getElementById('modal-summary');
+      const ct = document.getElementById('copy-toast');
+      if (sm) sm.classList.add('hidden');
+      if (ct) ct.classList.add('hidden');
+    }
+
+    function copySummaryCardText() {
+      const contentEl = document.getElementById('summary-card-content');
+      const content = contentEl ? contentEl.innerText : '';
+      const nickname = getStudentName();
+      const tempArea = document.createElement('textarea');
+      tempArea.value = `[나의 마음·관계 지킴이 실천 리포트]\n작성자: ${nickname}\n\n` + content;
+      document.body.appendChild(tempArea);
+      tempArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempArea);
+
+      const toast = document.getElementById('copy-toast');
+      if (toast) {
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 2500);
+      }
+    }
+
+    function alertBox(msg) {
+      const existing = document.getElementById('inapp-toast');
+      if (existing) existing.remove();
+
+      const toast = document.createElement('div');
+      toast.id = 'inapp-toast';
+      toast.className = 'fixed bottom-5 left-1/2 -translate-x-1/2 bg-slate-900/95 text-white px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold shadow-2xl z-50 animate-bounce flex items-center gap-2 border border-slate-700';
+      toast.innerHTML = `<i class="fa-solid fa-bell text-amber-400"></i> ${msg}`;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3200);
+    }
+
+    window.onload = function() {
+      initBoundaryActivity();
+      initSpectrumActivity();
+      initBodyActivity();
+      selectVideo(1);
+    };
+  </script>
+</body>
+</html>
